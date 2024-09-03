@@ -1,3 +1,6 @@
+// Copyright (C) 2024 EricLin <ericlin050914@gmail.com>
+// SPDX-License-Identifier: GPL-3.0-only
+
 #include  <stdio.h>  
 int main(int argc, const char * argv[] ) {
 /*
@@ -10,7 +13,7 @@ argv (argument vector): 是一个指向字符串的指针，其中每个字符�
 
 if (argc == 2)
 {
-    printf("There is one additional argument\n");
+    printf("There is one additional argument and the argument is %s\n",argv[1]);
 }
 else if (argc > 2)
 {
@@ -23,7 +26,7 @@ else
 
 /* 编译完成后在命令行输入以下命令会输出不同结果
 输入：./a.out argument1
-输出：There is one additional argument
+输出：There is one additional argument and the argument is argument1
 
 输入：./a.out argument1 argument2
 输出：There are more than one additional argument
