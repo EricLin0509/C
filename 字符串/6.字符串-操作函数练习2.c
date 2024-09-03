@@ -8,7 +8,7 @@ memset(str, '\0', sizeof(str));
 printf("请输入一个字符串\n");
 puts(str);
 
-int nLength = strlen(str);
+int nLength = (int)strlen(str);
 for (int i = nLength; i >= 0; i--)
 {
     putchar(str[i]);
