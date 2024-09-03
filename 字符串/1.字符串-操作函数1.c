@@ -2,6 +2,10 @@
 #include <string.h> // 系统库文件 存放一些「字符串」操作函数
 int main(int argc, const char * argv[] ) {
 
+    /*
+    注意：'' 表示一个字符，"" 表示字符串
+    */
+
     char str1[] = {'C','h','i','n','a'}; // 不是字符串 (没有 "\0")
     char str2[] = "China";
     char* str3 = "China";
