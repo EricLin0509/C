@@ -1,3 +1,6 @@
+// Copyright (C) 2024 EricLin <ericlin050914@gmail.com>
+// SPDX-License-Identifier: GPL-3.0-only
+
 /*
                     逻辑值                                                      数学值
 5 > 3 真用数字1表示 假用0表示（非0为真）

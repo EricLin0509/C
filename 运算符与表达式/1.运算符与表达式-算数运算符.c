@@ -1,3 +1,6 @@
+// Copyright (C) 2024 EricLin <ericlin050914@gmail.com>
+// SPDX-License-Identifier: GPL-3.0-only
+
 /*
 = 赋值运算符(变量=表达式)
 + 加

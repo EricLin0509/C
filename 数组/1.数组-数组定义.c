@@ -1,3 +1,6 @@
+// Copyright (C) 2024 EricLin <ericlin050914@gmail.com>
+// SPDX-License-Identifier: GPL-3.0-only
+
 #include  <stdio.h> 
 #define LENGTH 5 // 预编译指令
 int main(int argc, const char * argv[] ) {

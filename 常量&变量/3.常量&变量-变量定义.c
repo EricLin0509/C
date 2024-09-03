@@ -1,4 +1,7 @@
- /*
+// Copyright (C) 2024 EricLin <ericlin050914@gmail.com>
+// SPDX-License-Identifier: GPL-3.0-only
+
+/*
  数字 字母 下划线组成
  首字符不能是数字
  不能跟关键字重复

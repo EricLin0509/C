@@ -1,3 +1,6 @@
+// Copyright (C) 2024 EricLin <ericlin050914@gmail.com>
+// SPDX-License-Identifier: GPL-3.0-only
+
 #include  <stdio.h>  
 /*
 stdio.h 系统库文件（可以理解为是一种仓库）

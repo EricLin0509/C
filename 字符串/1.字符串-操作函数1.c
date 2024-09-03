@@ -1,3 +1,6 @@
+// Copyright (C) 2024 EricLin <ericlin050914@gmail.com>
+// SPDX-License-Identifier: GPL-3.0-only
+
 #include  <stdio.h> 
 #include <string.h> // 系统库文件 存放一些「字符串」操作函数
 int main(int argc, const char * argv[] ) {

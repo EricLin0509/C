@@ -1,3 +1,6 @@
+// Copyright (C) 2024 EricLin <ericlin050914@gmail.com>
+// SPDX-License-Identifier: GPL-3.0-only
+
 //printf("格式控制字符串",参数列表...);
 
 #include  <stdio.h>  
