@@ -8,7 +8,7 @@
 用于防止头文件被包含多次
 */
 
-int number() {
+int number1() {
     return 5;
 }
 

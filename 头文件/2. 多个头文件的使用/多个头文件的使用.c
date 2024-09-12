@@ -10,7 +10,7 @@
 int main(int argc, const char * argv[]) {
 
 
-printf("%d\n",number());
+printf("number1=%d, number2=%d\n",number1(),number2());
 
 return 0;
 

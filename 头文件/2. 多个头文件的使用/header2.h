@@ -8,6 +8,9 @@
 用于防止头文件被包含多次
 */
 
-# include "header1.h"
+# include "header1.h" // 如果 NUM1_H 已经被定义了。这个头文件将不会导入
+int number2() {
+    return 10;
+}
 
 # endif
