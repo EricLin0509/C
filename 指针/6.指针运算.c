@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 #include<stdio.h>
+# define VALUES 5
 int main(int argc, const char * argv[]) {
 
 int arr[10] = {1,2,3,4,5,6,7,8,9,10};
@@ -49,7 +50,20 @@ for (p2 = arr2; p2 < &arr2[10]; p2++)
     printf("%d\n",p2[0]);
 }
 
+float values[VALUES];
+float * vp = NULL;
 
+for (vp = &values[0];vp < &values[VALUES];vp++)
+{
+    *vp = 1;
+    printf("%.0lf ",*vp);
+}
+
+
+// 指针和指针相减的前提
+// 两个指针指向同一块空间
+char c[5];
+printf("%d\n",&c[5] - &c[0]);
 return 0;
 
 }
