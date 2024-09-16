@@ -55,7 +55,34 @@ int arr[10]; // 整形数组
 char ch[5]; // 字符数组
 
 // 指针数组 - 存放指针的数组
-int *parr[5]; // 整形指针数组
+int a = 10;
+int b = 20;
+int c = 30;
+int *parr[3] = {&a,&b,&c}; // 整形指针数组
+
+for (int i = 0; i < 3; i++)
+{
+    printf("%d ",*(parr[i]));
+}
+putchar('\n');
+
+int d[5] = {1,2,3,4,5};
+int e[5] = {6,7,8,9,10};
+int f[5] = {11,12,13,14,15};
+
+int *arr2[3] = {d,e,f};
+
+for (int i = 0; i < 3; i++)
+{
+    for (int j = 0; j < 5; j++)
+    {
+        printf("%d\n",*(arr2[i]+j)); 
+        // printf("%d\n",arr2[i][j]);
+        // 虽然这种长得像二维数组，但是这个数组里面的内存是不连续的
+    }
+    
+}
+
 return 0;
 
 }
