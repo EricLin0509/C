@@ -6,7 +6,7 @@
 int main() {
 
 // char s[] = "abcd"; 和 char *s = "abcd"; 的区别
-char s1[] = "abcdef"; // 此字符串存放在堆区，可以修改
+char s1[] = "abcdef"; // 此字符串存放在栈区，可以修改
 s1[0] = 'X';
 printf("s1: %s\n",s1); // s1 在此处的作用是常量指针
 
