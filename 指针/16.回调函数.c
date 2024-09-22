@@ -61,12 +61,12 @@ switch (option)
 {
 case 1:
     freezing(Celsius);
-    // freezing 函数调用 Ceksius 函数
+    // freezing 函数调用 Celsius 函数
     break;
 
 case 2:
     freezing(Fahtenheit);
-    // freezing 函数调用 Ceksius 函数
+    // freezing 函数调用 Fahtenheit 函数
     break;
 
 default:
