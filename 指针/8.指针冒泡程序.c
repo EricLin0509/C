@@ -21,6 +21,47 @@ for (int i = 0; i < len; i++)
 
 }
 
+
+void Swap(char *buffer1, char *buffer2, int width)
+{
+    for (int i = 0; i < width; i++)
+    {
+        char temp = *buffer1;
+        *buffer1 = *buffer2;
+        *buffer2 = temp;
+        buffer1++;
+        buffer2++;
+    }
+    
+}
+
+// 实现一个冒泡程序的通用算法
+void bubble_sort(void *base, int size, int width, int (*cmp)(const void *e1, const void *e2))
+{
+    for (int i = 0; i < size - 1; i++)
+    {
+        for (int j = 0; j < size- 1 - i; j++)
+        {
+            // 两个元素比较
+            // arr[j] arr[j+1]
+            printf("%zu\n",((char *)base+j*width));
+            if (cmp((char *)base+j*width, (char *)base+(j+1)*width) < 0) // 条件是第一个元素小于第二个元素
+            {
+                // 交换
+                Swap((char *)base+j*width, (char *)base+(j+1)*width, width);
+            }
+            
+        }
+        
+    }
+    
+}
+
+int compare_int(const void *num1, const void *num2)
+{
+    return *(int *)num1 - *(int *)num2; // 此处将 'void *' 强制转换成 'int *'，然后再解引用
+}
+
 int main(int argc, const char * argv[]) {
 int arr[10] = {4,7,9,10,2,8,1,6,5,3};
 // 数组名和指针的区别
@@ -37,7 +78,18 @@ for (int i = 0; i < 10; i++)
 {
     printf("%d ",arr[i]);
 }
-putchar('\n');
+printf("\n\n");
+
+
+// 实现一个冒泡程序的通用算法
+int size = sizeof(arr) / sizeof(int);
+bubble_sort(arr, size, sizeof(int),compare_int);
+
+for (int i = 0; i < size; i++)
+{
+    printf("%d ",arr[i]);
+}
+printf("\n");
 
 return 0;
 
