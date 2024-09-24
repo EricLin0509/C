@@ -81,5 +81,20 @@ printf("pointer: %zu\n",pointer);
 printf("*pointer: %zu\n",*pointer); // 输出10
 printf("*(*(&matrix[1]+1)): %zu\n\n",*(*(&matrix[1]+1)));
 
+int a[] = {1,2,3,4};
+
+printf("%d\n",sizeof(a)); // 16，数组的大小，sizeof(a) 是数组的大小
+printf("%d\n",sizeof(a+0)); // 4/8， a + 0 是第一个元素的地址
+printf("%d\n",sizeof(*a)); // 4，*a 是数组的第一个元素，sizeof(*a) 是数组的第一个元素的大小
+printf("%d\n",sizeof(a + 1)); // 4/8， a + 1 是第二个元素的地址，sizeof(a + 1) 是第二个元素的地址的大小
+printf("%d\n\n",sizeof(a[1])); // 4，sizeof(a[1]) 是数组的第二个元素的大小
+
+printf("%d\n",sizeof(&a)); // 4/8，&a 是数组的地址，sizeof(&a) 是数组的地址的大小
+printf("%d\n",sizeof(*&a)); // 16，计算数组的大小，等效于 sizeof(a)
+printf("%d\n",sizeof(&a + 1)); // 4/8，&a + 1 是数组的地址的下一个地址，sizeof(&a + 1) 是数组的地址的下一个地址的大小
+printf("%d\n",sizeof(&a[0])); // 4/8，&a[0] 是数组的第一个元素的地址，sizeof(&a[0]) 是数组的第一个元素的地址的大小
+printf("%d\n\n",sizeof(&a[0] + 1)); // 4/8，&a[0] + 1 是数组的第二个元素的地址，sizeof(&a[0] + 1) 是数组的第二个元素的地址的大小
+
+
 return 0;
 }
