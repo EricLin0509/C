@@ -95,6 +95,15 @@ printf("%d\n",sizeof(&a + 1)); // 4/8，&a + 1 是数组的地址的下一个地
 printf("%d\n",sizeof(&a[0])); // 4/8，&a[0] 是数组的第一个元素的地址，sizeof(&a[0]) 是数组的第一个元素的地址的大小
 printf("%d\n\n",sizeof(&a[0] + 1)); // 4/8，&a[0] + 1 是数组的第二个元素的地址，sizeof(&a[0] + 1) 是数组的第二个元素的地址的大小
 
+char *p = "abcdef";
+
+printf("%d\n",sizeof(p)); // 4/8，p 是字符串的地址，sizeof(p) 是字符串的地址的大小
+printf("%d\n",sizeof(p + 1)); // 4/8，p + 1 是字符串的第二个字符的地址，sizeof(p + 1) 是字符串的第二个字符的地址的大小
+printf("%d\n",sizeof(*p)); // 1，*p 是字符串的第一个字符，sizeof(*p) 是字符串的第一个字符的大小
+printf("%d\n",sizeof(p[1])); // 1，p[1] 是字符串的第二个字符，sizeof(p[1]) 是字符串的第二个字符的大小
+printf("%d\n",sizeof(&p)); // 4/8，&p 是字符串的地址的地址，sizeof(&p) 是字符串的地址的地址的大小
+printf("%d\n",sizeof(&p + 1)); // 4/8，&p + 1 是字符串的地址的地址的下一个地址，sizeof(&p + 1) 是字符串的地址的地址的下一个地址的大小
+printf("%d\n\n",sizeof(&p[0] + 1)); // 4/8，&p[0] + 1 是字符串的第二个字符的地址，sizeof(&p[0] + 1) 是字符串的第二个字符的地址的大小
 
 return 0;
 }
