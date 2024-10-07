@@ -124,6 +124,10 @@ printf("sizeof(temp3)=%d\n",sizeof(temp3)); // 输出16
 printf("&(temp3.a)=%zu\n",&(temp3.a));
 printf("&(temp3.b)=%zu\n\n",&(temp3.b));
 
+/*
+字节对齐的目的是为了提高CPU的访问效率
+*/
+
 return 0;
 
 }
