@@ -104,7 +104,7 @@ for (int i = 0; i < (size + 5); i++)
 free(p4);
 
 
-int *password = calloc(10, sizeof(char));
+int *password = calloc(10, sizeof(int));
 
 for (int i = 0; i < 10; i++)
 {
