@@ -47,9 +47,9 @@ f1(1, 2);
 栈调用过程：
 
                               f2
-                               |
-                f1           f1           f1         
-                 |             |             |          
+                              |
+                f1           f1         f1
+                |             |            |
 main -> main -> main-> main-> main
 */
 
