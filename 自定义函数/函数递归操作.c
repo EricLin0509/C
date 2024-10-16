@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 #include <stdio.h>
-#include <stdlib.h>
 
 /*
 函数递归调用是一种编程技巧，它允许函数调用自身来解决问题
