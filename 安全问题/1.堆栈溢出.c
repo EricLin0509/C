@@ -45,12 +45,15 @@ int main(int argc, char const *argv[]) {
 f1(1, 2);
 /*
 栈调用过程：
-
-                              f2
-                              |
-                f1           f1         f1
-                |             |            |
-main -> main -> main-> main-> main
+main
+^
+main ---- f1
+^
+main ---- f1 ---- f2
+^
+main ---- f1
+^
+main
 */
 
 
