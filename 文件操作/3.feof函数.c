@@ -28,7 +28,7 @@ int main (int argc, const char * argv[]) {
 
     rewind(data); // 将文件指针重置到文件开头，同时清除文件结束标志，以便再次读取文件
 
-        while (1)
+     while (1)
     {
         c = fgetc(data);
         printf("%c",c);
