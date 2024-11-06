@@ -35,5 +35,15 @@ int main(int argc, const char * argv[]) {
 
     int err = errno;
 
+    /*
+    相比从终端运行程序，使用 exec 型函数的区别是：
+    
+    终端运行的是shell脚本，而 exec 型函数运行的是程序本身
+    shell 是向终端传参，而 exec 型函数是直接向程序传参
+
+    例如：'ping -c 1 www.bing.com | grep "rtt"' 可以在终端运行，而 exec 型函数无法运行
+    因为终端知道 '|' 是管道符，而 exec 型函数不知道 '|' 是管道符
+    */
+
     return 0;
 }
