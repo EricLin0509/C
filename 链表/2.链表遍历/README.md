@@ -54,5 +54,5 @@
 | :----: | :----: |
 | int i = 0 | struct node *curr = &root; |
 | i < n | curr != NULL |
-| i++ | curr = p->next; |
+| i++ | curr = curr->next; |
 
