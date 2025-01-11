@@ -3,7 +3,7 @@
 ## 之前的方法
 
 ```c
-    struct Node root;
+    Node root;
     root.x = 1;
     root.next = malloc(sizeof(Node));
     root.next->x = 2;
@@ -18,7 +18,7 @@
 #### 例如添加10个元素
 
 ```c
-    struct Node root;
+    Node root;
     root.x = 1;
     root.next = malloc(sizeof(Node));
     root.next->x = 2;
@@ -44,9 +44,7 @@
 
 ## 解决代码的重复率很高的方案——函数
 
-### 代码示例
-
-#### 创建新节点
+### 创建新节点
 
 ```c
 void instert(Node **root, int value)
@@ -63,14 +61,14 @@ void instert(Node **root, int value)
 
 #### 这里出现的问题
 
-如果 malloc 失败，会返回 NULL，但是我们没有处理这种情况
+如果 `malloc` 失败，会返回 NULL，但是我们没有处理这种情况
 
 #### 解决方案——添加错误处理
 
 ```c
 void instert(Node **root, int value)
 {
-    struct Node *newNode = malloc(sizeof(Node)); // 创建新节点
+    Node *newNode = malloc(sizeof(Node)); // 创建新节点
     
     if (newNode == NULL)
     {
@@ -83,11 +81,11 @@ void instert(Node **root, int value)
 }
 ```
 
-#### 将新节点添加到链表中
+### 将新节点添加到链表中
 ```c
 void instert(Node **root, int value)
 {
-    struct Node *newNode = malloc(sizeof(Node)); // 创建新节点
+    Node *newNode = malloc(sizeof(Node)); // 创建新节点
     
     if (newNode == NULL)
     {
@@ -98,7 +96,7 @@ void instert(Node **root, int value)
     newNode->next = NULL;
     newNode->x = value;
 
-    struct Node *curr = *root;
+    Node *curr = *root;
     while (curr->next != NULL) // 找到最后一个节点
     {
         curr = curr->next;
@@ -109,7 +107,7 @@ void instert(Node **root, int value)
 
 #### 假如链表为空
 ```c
-    struct Node *root_empty = NULL;
+    Node *root_empty = NULL;
     instert(&root_empty, 1);
 ```
 
@@ -120,7 +118,7 @@ void instert(Node **root, int value)
 zsh: segmentation fault (core dumped)  ./a.out
 ```
 
-出现了段错误，因为 root_empty 是 NULL，我们不能访问 root_empty->next
+出现了段错误，因为 `root_empty` 是 NULL，我们不能访问 `root_empty->next`
 
 #### 解决方案——添加检测机制
 ```c
