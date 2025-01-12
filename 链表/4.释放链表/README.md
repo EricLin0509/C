@@ -68,7 +68,7 @@ void deallocate(Node **root)
 }
 ```
 
-[源代码](释放链表.c)
+[源代码](释放链表.c#L9)
 
 ## 使用递归
 
