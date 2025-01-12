@@ -6,6 +6,19 @@ typedef struct Node {
     struct Node *next;
 } Node;
 
+void insert_after(Node *node, int value)
+{
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    if (newNode == NULL)
+    {
+        return;
+    }
+
+    newNode->x = value;
+    newNode->next = node->next; // 新节点的指针域存储下一个节点的地址
+    node->next = newNode; // 上一个节点的指针域存储新节点的地址
+}
+
 void insert(Node **root, int value)
 {
     Node *newNode = malloc(sizeof(Node)); // 创建新节点
@@ -33,31 +46,32 @@ void insert(Node **root, int value)
     curr->next = newNode; // 将新节点添加到链表中
 }
 
+void deallocate(Node **root)
+{
+    Node *curr = *root;
+    while(curr != NULL) // 遍历链表
+    {
+        Node *temp = curr; // 保存当前节点的地址
+        curr = curr->next;
+        free(temp); // 释放当前节点
+    }
+    *root = NULL; // 重置头节点
+}
+
 int main(int argc, const char * argv[]) {
 
-    Node *root = malloc(sizeof(Node)); // 创建头节点
-    if (root == NULL) // 判断是否创建成功
-    {
-        exit(1);
-    }
-    root->x = 1;
-    root->next = NULL;
-
+    Node *root = NULL;;
+    insert(&root, 1);
     insert(&root, 2);
+
+    insert_after(root, 7); // 在第一个节点后插入一个新节点
 
     for (Node *curr = root; curr != NULL; curr = curr->next)
     {
         printf("%d\n", curr->x);
     }
-    printf("\n");
 
-
-    Node *root_empty = NULL; // 空链表
-    insert(&root_empty, -2);
-    for (Node *curr = root_empty; curr!= NULL; curr = curr->next)
-    {
-        printf("%d\n", curr->x);
-    }
+    deallocate(&root);
 
     return 0;
 }

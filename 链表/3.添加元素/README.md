@@ -44,10 +44,12 @@
 
 ## 解决代码的重复率很高的方案——函数
 
+## 尾插法
+
 ### 创建新节点
 
 ```c
-void instert(Node **root, int value)
+void insert(Node **root, int value)
 {
     Node *newNode = malloc(sizeof(Node)); // 创建新节点
     newNode->next = NULL;
@@ -55,9 +57,9 @@ void instert(Node **root, int value)
 }
 ```
 
-#### 为什么传入二级指针？
+#### 为什么不用二级指针？
 
-因为我们要修改 root 的值，而 root 是一个指针，所以我们需要传递 root 的地址
+由于需要改变整个节点的地址，所以需要用二级指针
 
 #### 这里出现的问题
 
@@ -66,7 +68,7 @@ void instert(Node **root, int value)
 #### 解决方案——添加错误处理
 
 ```c
-void instert(Node **root, int value)
+void insert(Node **root, int value)
 {
     Node *newNode = malloc(sizeof(Node)); // 创建新节点
     
@@ -83,7 +85,7 @@ void instert(Node **root, int value)
 
 ### 将新节点添加到链表中
 ```c
-void instert(Node **root, int value)
+void insert(Node **root, int value)
 {
     Node *newNode = malloc(sizeof(Node)); // 创建新节点
     
@@ -108,7 +110,7 @@ void instert(Node **root, int value)
 #### 假如链表为空
 ```c
     Node *root_empty = NULL;
-    instert(&root_empty, 1);
+    insert(&root_empty, 1);
 ```
 
 执行
@@ -122,7 +124,7 @@ zsh: segmentation fault (core dumped)  ./a.out
 
 #### 解决方案——添加检测机制
 ```c
-void instert(Node **root, int value)
+void insert(Node **root, int value)
 {
     Node *newNode = malloc(sizeof(Node)); // 创建新节点
     
@@ -150,4 +152,60 @@ void instert(Node **root, int value)
 }
 ```
 
-[源代码](添加元素.c)
+[源代码](添加元素.c#L9)
+
+## 头插法
+
+### 创建新节点
+
+```c
+void insert_begin(Node **root, int value)
+{
+    Node *newNode = malloc(sizeof(Node)); // 创建新节点
+
+    if (newNode == NULL) // 如果内存分配失败
+    {
+        printf("malloc failed\n");
+        exit(1);
+    }
+
+    newNode->x = value;
+    newNode->next = *root;
+}
+```
+
+### 将新节点添加到头部
+
+```c
+void insert_begin(Node **root, int value)
+{
+    Node *newNode = malloc(sizeof(Node)); // 创建新节点
+
+    if (newNode == NULL) // 如果内存分配失败
+    {
+        printf("malloc failed\n");
+        exit(1);
+    }
+
+    newNode->x = value;
+    newNode->next = *root;
+
+    *root = newNode; // 将新节点作为根节点
+}
+```
+[源代码](添加元素头插法.c#L9)
+
+### 优点
+
+1. 由于不需要遍历链表，因此插入速度快
+2. 不需要判断链表是否为空
+
+### 缺点
+
+1. 链表的顺序与插入顺序相反
+
+## 尾插法与头插法的比较
+| 方法 | 优点 | 缺点 |
+| :---: | :---: | :---: |
+| 尾插法 | 1. 不需要遍历链表<br>2. 链表的顺序与插入顺序相同 | 1. 需要遍历链表<br>2. 插入速度慢 |
+| 头插法 | 1. 插入速度快<br>2. 不需要判断链表是否为空 | 1. 链表的顺序与插入顺序相反 |
