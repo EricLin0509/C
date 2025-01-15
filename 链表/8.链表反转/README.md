@@ -76,3 +76,32 @@ void reverse(Node **root)
 ```
 
 [源代码](链表反转.c#L9)
+
+## 补充：递归
+
+```c
+void reverse_recursive(Node **start, Node **root, Node *prev)
+{
+    Node *curr = *root; // 当前节点
+  
+    if (curr != NULL)
+    {
+        Node *next = curr->next; // 下一个节点
+        curr->next = prev; // 反转当前节点的指针
+        reverse_recursive(start, &next, curr); // 递归调用，更新 prev 和 curr
+    }
+    else
+    {
+        *start = prev; // 更新根节点
+        return;
+    }
+}
+```
+
+`start` 用于存储新的根节点，`root` 用于遍历链表，`prev` 用于存储前一个节点
+
+### 调用
+
+```c
+reverse_recursive(&root, &root, NULL);
+```
