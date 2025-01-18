@@ -21,7 +21,7 @@ typedef struct Node { // 定义节点
 } Node;
 ```
 
-#### `struct Node *next` 为什么不能是 `Node *next` ？
+#### 为什么是 `struct Node *next` 而不是 `Node *next` ？
 
 `typedef` 是把 `struct Node` 重命名为 `Node`，但是结构体里面还没有定义 `Node`，所以不能使用 `Node` 来定义 `next`
 
