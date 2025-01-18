@@ -1,4 +1,4 @@
-// Copyright (C) 2024 EricLin <ericlin050914@gmail.com>
+// Copyright (C) 2024 EricLin
 // SPDX-License-Identifier: GPL-3.0-only
 
 # ifndef NUM2_H // 头文件保护符 (Header Guard)
