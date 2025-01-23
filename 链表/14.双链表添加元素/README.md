@@ -176,3 +176,81 @@ void init(Node **tail, Node **head, int value)
 ```
 
 [源代码](双链表添加元素.c#L48)
+
+## 尾插法
+
+### 步骤
+
+1. 创建新节点
+2. 将新节点插入到链表的末尾
+3. 设置新节点为尾节点
+
+## 代码示例
+
+### 设置新节点
+
+```c
+void insert_end(Node **head, int value)
+{
+    Node *new_node = malloc(sizeof(Node));
+
+    if (new_node == NULL)
+    {
+        exit(1);
+    }
+    new_node->x = value; // 新节点的值
+}
+```
+
+### 插入新节点
+
+```c
+void insert_end(Node **head, int value)
+{
+    Node *new_node = malloc(sizeof(Node));
+
+    if (new_node == NULL)
+    {
+        exit(1);
+    }
+    new_node->x = value; // 新节点的值
+
+    new_node->next = NULL; // 新节点的下一个节点为 NULL
+    new_node->prev = *head; // 插入到链表的末尾
+}
+```
+
+### 设置新节点为尾节点
+
+```c
+void insert_end(Node **head, int value)
+{
+    Node *new_node = malloc(sizeof(Node));
+
+    if (new_node == NULL)
+    {
+        exit(1);
+    }
+    new_node->x = value; // 新节点的值
+
+    new_node->next = NULL; // 新节点的下一个节点为 NULL
+    new_node->prev = *head; // 插入到链表的末尾
+
+    (*head)->next = new_node; // 原来的尾节点的下一个节点为新节点
+    *head = new_node; // 新节点变成新的尾节点
+}
+```
+
+### 调用函数
+
+```c
+    Node *tail = NULL;
+    Node *head = NULL;
+
+    init(&tail, &head, 1);
+    insert_end(&head, 2);
+    insert_end(&head, 3);
+    insert_end(&head, 4);
+```
+
+[源代码](双链表添加元素尾插法.c#L11)
