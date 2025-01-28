@@ -111,7 +111,7 @@ child_process:
 
 其中，`syscall` 用于触发中断，使 CPU 切换到内核模式
 
-而 `mov rax, 57` 、`mov rax, 60` 、```mov rax, 59` 则表示不同的系统调用
+而 `mov rax, 57` 、`mov rax, 60` 、`mov rax, 59` 则表示不同的系统调用
 
 这里是 Linux 内核中的系统调用表：[传送门](https://github.com/torvalds/linux/blob/master/arch/x86/entry/syscalls/syscall_64.tbl)
 
