@@ -172,3 +172,78 @@ mail: 1052041
 结果：26
 
 这里可以看到，`thread2`被打断了，导致获取的值不正确
+
+## 解决方法——互斥锁
+
+互斥锁的意思是，当一个线程在执行时，其他线程不能执行，直到该线程执行完毕
+
+### 大致原理
+
+```c
+int mail = 0;
+int lock = 0;
+
+void *routine()
+{
+    if (lock == 1)
+    {
+        // 等待lock变为0
+    }
+    lock = 1;
+    mail++;
+    lock = 0;
+}
+```
+
+## Mutex
+
+Mutex是一种同步原语，用于保护共享资源，防止多个线程同时访问共享资源，防止出现竟态条件
+
+### 代码示例
+
+#### 初始化mutex
+
+```c
+int mail = 0;
+pthread_mutex_t mutex;
+
+int main(int argc, const char *argv[]) {
+    pthread_t thread1, thread2;
+    pthread_mutex_init(&mutex, NULL); // 初始化互斥锁
+    ...
+    pthread_mutex_destroy(&mutex); // 销毁互斥锁
+}
+```
+
+#### 使用mutex
+
+```c
+int mail = 0;
+pthread_mutex_t mutex;
+
+void *routine()
+{
+    for (int i = 0; i < 1000000; i++)
+    {
+        pthread_mutex_lock(&mutex); // 加锁
+        mail++;
+        pthread_mutex_unlock(&mutex); // 解锁
+    }   
+}
+```
+
+[源代码](mutex.c)
+
+#### 运行
+
+```bash
+gcc -o mutex mutex.c -pthread
+./mutex
+mail: 2000000
+```
+
+### 原理
+
+`pthread_mutex` 相当于将一部分代码保护起来，防止其他线程同时执行。当执行`pthread_mutex_lock`时，其他线程就无法执行，直到执行`pthread_mutex_unlock`，其他线程才能执行，**但这样会使运算时间变长**
+
+p.s. 一般情况下，竞态条件不会在单核CPU上出现
