@@ -37,6 +37,10 @@ int main(int argc, const char *argv[]) {
 }
 ```
 
+### 为什么result不能是二级指针？
+
+如果 `result` 是一个二级指针 (即 `int **result`)，那么 `pthread_join` 会将线程函数的返回值存储在 `result` 所指向的内存位置，而不是直接存储在 `result` 中。这意味着你需要额外的内存分配来存储这个指针，这会增加代码的复杂性
+
 ### 运行
 
 ```bash
