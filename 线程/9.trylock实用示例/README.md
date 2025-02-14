@@ -80,7 +80,7 @@ void *routine(void *arg) {
 
 ### 运行
 ```bash
-gcc -o trylock trylock.c -lpthread
+gcc -o trylock trylock.c -pthread
 ./trylock
 剩余燃料：91
 剩余燃料：74
