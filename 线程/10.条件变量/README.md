@@ -6,7 +6,10 @@
 
 ## 情景
 
-假设现在有一个汽车，它有一个油箱，油箱的容量是 100 升，现在有两个线程，一个线程是加油的线程，一个线程是等待加油的线程
+假设现在有一辆汽车，现在有两个线程，一个线程是加油的线程，一个线程是等待加油的线程
+
+- `fuel_filling`: 加油
+- `car`: 车
 
 ### 定义两个函数
 
@@ -26,7 +29,7 @@ void *fuel_filling(void *arg)
     }
 }
 
-void *wait_fuel(void *arg)
+void *car(void *arg)
 {
     pthread_mutex_lock(&mutexFuel);
     fuel -= 40;
@@ -58,7 +61,7 @@ int main(int argc, const char * argv[]) {
         }
         else
         {
-            if (pthread_create(&thread[i], NULL, &wait_fuel, NULL) != 0)
+            if (pthread_create(&thread[i], NULL, &car, NULL) != 0)
             {
                 perror("pthread_create");
                 return 1;
@@ -97,7 +100,7 @@ gcc -o conditionVariable conditionVariable.c -pthread
 ### 尝试解决
 
 ```c
-void *wait_fuel(void *arg)
+void *car(void *arg)
 {
     pthread_mutex_lock(&mutexFuel);
     while (fuel < 40)
@@ -162,7 +165,7 @@ int main(int argc, const char * argv[]) {
         }
         else
         {
-            if (pthread_create(&thread[i], NULL, &wait_fuel, NULL) != 0)
+            if (pthread_create(&thread[i], NULL, &car, NULL) != 0)
             {
                 perror("pthread_create");
                 return 1;
@@ -207,7 +210,7 @@ void *fuel_filling(void *arg)
     }
 }
 
-void *wait_fuel(void *arg)
+void *car(void *arg)
 {
     pthread_mutex_lock(&mutexFuel);
     while (fuel < 40)
@@ -244,7 +247,7 @@ void *fuel_filling(void *arg)
     }
 }
 
-void *wait_fuel(void *arg)
+void *car(void *arg)
 {
     pthread_mutex_lock(&mutexFuel);
     while (fuel < 40)

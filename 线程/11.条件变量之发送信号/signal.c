@@ -14,7 +14,7 @@ void *fuel_filling(void *arg)
     for (int i = 0; i < 5; i++)
     {
         pthread_mutex_lock(&mutexFuel);
-        fuel += 15;
+        fuel += 60;
         printf("加油中... %d\n", fuel);
         pthread_mutex_unlock(&mutexFuel);
         pthread_cond_signal(&condFuel); // 发送条件变量
@@ -40,12 +40,12 @@ void *car(void *arg)
 }
 
 int main(int argc, const char * argv[]) {
-    pthread_t thread[2];
+    pthread_t thread[5];
     pthread_mutex_init(&mutexFuel, NULL);
     pthread_cond_init(&condFuel, NULL); // 初始化条件变量
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 5; i++)
     {
-        if (i == 0)
+        if (i == 4)
         {
             if (pthread_create(&thread[i], NULL, &fuel_filling, NULL) != 0)
             {
@@ -65,7 +65,7 @@ int main(int argc, const char * argv[]) {
         }
     }
 
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 5; i++)
     {
         if (pthread_join(thread[i], NULL) != 0)
         {
