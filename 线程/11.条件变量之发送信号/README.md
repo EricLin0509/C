@@ -170,11 +170,11 @@ gcc -o broadcast broadcast.c -pthread
 加油中... 140
 ```
 
-可以看到，所有的线程都被唤醒了，并且所有线程都是异步执行的
+可以看到，所有的线程都被唤醒了，并且所有线程都是顺序执行的
 
 ## 总结
 
 | 函数 | signal | broadcast |
-| ---- | ---- | ---- |
+| :----: | :----: | :----: |
 | 功能 | 唤醒一个线程 | 唤醒所有线程 |
 | 用法 | `pthread_cond_signal(&condFuel);` | `pthread_cond_broadcast(&condFuel);` |
