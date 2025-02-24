@@ -163,15 +163,6 @@ int main(int argc, const char *argv[]) {
 ### 销毁线程属性
 
 ```c
-pthread_attr_t DetachAttr;
-
-pthread_attr_init(&DetachAttr);
-pthread_attr_setdetachstate(&DetachAttr, PTHREAD_CREATE_DETACHED);
-```
-
-### 使用可分离线程
-
-```c
 int main(int argc, const char *argv[]) {
 
     pthread_t thread[THREAD_NUM];
