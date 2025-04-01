@@ -22,7 +22,7 @@ KMP (Knuth-Morris-Pratt) 算法是一种改进的字符串匹配算法，由 D.E
 
 #### 初始化
 
-- len —— 模式串的长度
+- `len` —— 模式串的长度
 - `pattern` —— 模式串，即我们要在str中查找的子串
 
 ```c
@@ -171,7 +171,7 @@ int *longestCommonPrefix(char *pattern, int len)
 
 ![step2](imgs/step2.png)
 
-然后我们开始遍历字符串，从第二个字符开始
+然后我们继续遍历字符串，从第二个字符开始
 
 由于 `pattern[1] == pattern[0]`，所以我们将 `prev` 加 1，然后将 `LPS[1]` 赋值为 `prev`
 
@@ -200,7 +200,7 @@ int *longestCommonPrefix(char *pattern, int len)
 ![exp2](imgs/exp2.png)
 ![exp3](imgs/exp3.png)
 
-如果不同，那么我们就需要将 `prev` 赋值为 `LPS[prev - 1]`，然后再次比较 `pattern[i]` 和 `pattern[prev]`，直到 `prev == 0`
+如果不同，那么我们就需要将 `prev` 赋值为 `LPS[prev - 1]`，相当于**将指针移动到前面一个子串的最长公共前后缀的位置**
 
 如果 `prev == 0`，那么我们就需要将 `LPS[i]` 赋值为 0，然后将 `i` 加 1
 
