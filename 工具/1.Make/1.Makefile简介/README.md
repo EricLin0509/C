@@ -39,7 +39,7 @@ gcc -o main main.c
 
 ### 配置依赖关系
 
-假设现在要编译 [main.c](main.c) 文件和依赖文件 [test.c](test.c)
+假设现在要编译 [main.c](main.c) 文件并使用依赖文件 [test.c](test.c)
 
 ```makefile
 main: main.c test.c
@@ -50,6 +50,7 @@ main: main.c test.c
 
 ```bash
 make main
+gcc -o main main.c test.c
 ```
 
 ### 配置多个规则
