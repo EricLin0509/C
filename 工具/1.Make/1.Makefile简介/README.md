@@ -28,7 +28,7 @@ main: main
 	gcc -o main main.c
 ```
 
-执行以下命令
+执行 `make main` 命令
 
 ```bash
 make main
