@@ -95,6 +95,36 @@ gcc -c test.c -o test.o
 gcc -o main main.c
 ```
 
+### 配置变量
+
+使用变量可以简化命令
+
+声明变量语法如下
+
+```makefile
+变量名 = 值
+```
+使用变量语法如下
+
+```makefile
+$(变量名)
+```
+
+```makefile
+CC = gcc
+
+all: main
+
+main: main.c test.o
+	$(CC) -o main main.c
+```
+
+执行 `make` 命令
+```bash
+make
+gcc -o main main.c
+```
+
 ### 清理
 
 使用 `clean` 作为清理规则
