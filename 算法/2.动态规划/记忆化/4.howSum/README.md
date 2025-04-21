@@ -21,6 +21,7 @@
 
 ![howSum](imgs/howSum.png)
 ![howSum](imgs/howSum_result.png)
+
 这里以 howSum(7, [5, 3, 4, 7]) 为例
 
 ```c
@@ -79,7 +80,9 @@ int *howSum(int target, int *nums, int numsSize, int *returnSize)
         if (remainderResult!= NULL) // 找到一个组合，返回结果数组
         {
             result[resultSize++] = nums[i]; // 将此元素加入到结果数组中
-            memo[target][0] = memo[target][1] = result; // 将结果数组加入到记忆化数组中
+            memo[target][0] = result; //  表示已经计算过
+            memo[target][1] = malloc(sizeof(int) * resultSize);
+            memcpy(memo[target][1], result, sizeof(int) * resultSize); // 将结果数组加入到记忆化数组中
             return result; // 返回结果数组
         }
     }
