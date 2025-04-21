@@ -57,12 +57,13 @@ bool canSum(int target, int *nums, int numsSize)
 
 ## 使用动态规划实现
 
-`memo[target+1][2]` 是键值对，键为目标值，值为布尔值，表示是否可以找到组合
+`memo[1024][2]` 表示键值对，键为目标值，值为布尔值，表示是否可以找到
 
-`memo[target][0]` 表示是否已经计算过，`memo[target][1]` 表示计算结果
+`memo[1024][0]` 表示是否已经计算过，`memo[1024][1]` 表示结果数组
 
 ```c
-bool canSum(int target, int *nums, int numsSize, bool  (*memo)[2])
+bool memo[1024][2]; // 记忆化数组
+bool canSum(int target, int *nums, int numsSize)
 {
     if (memo[target][0]) return memo[target][1]; // 如果已经计算过，直接返回结果
 
