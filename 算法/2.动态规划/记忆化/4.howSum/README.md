@@ -103,15 +103,14 @@ int *howSum(int target, int *nums, int numsSize, int *returnSize)
         int *reminderResult = howSum(remainder, nums, numsSize, &reminderSize); // 递归调用canSum函数
         if (reminderResult != NULL) // 找到一个组合，返回结果数组
         {
-            reminderResult[reminderSize++] = nums[i]; // 将此元素加入到结果数组中
-            *returnSize = reminderSize; // 更新结果数组的大小
-            if (memo[target]!= NULL && memo_size[target]!= 0) // 如果需要更新，释放内存
+            if (memo[target] == NULL) // 如果记忆化数组中没有此元素，分配内存
             {
-                free(memo[target]); // 释放内存
+                memo[target] = malloc((reminderSize + 1) * sizeof(int)); // 分配内存
+                memcpy(memo[target], reminderResult, reminderSize * sizeof(int)); // 复制结果数组到记忆化数组中
+                memo[target][reminderSize] = nums[i]; // 添加当前元素
+                memo_size[target] = reminderSize + 1; // 更新记忆化数组的大小
             }
-            memo[target] = malloc((reminderSize + 1) * sizeof(int)); // 分配内存
-            memcpy(memo[target], reminderResult, reminderSize * sizeof(int)); // 复制结果数组到记忆化数组中
-            memo_size[target] = reminderSize + 1; // 更新记忆化数组的大小
+            *returnSize = memo_size[target]; // 返回结果数组的大小
             return memo[target]; // 返回结果数组
         }
     }

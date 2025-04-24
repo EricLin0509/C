@@ -51,25 +51,19 @@ int* bestSum(int target, int* nums, int numsSize, int* returnSize)
         int *remainderResult = bestSum(remainder, nums, numsSize, &remainderSize);
         if(remainderResult != NULL)
         {
-            remainderResult[remainderSize++] = nums[i];
-            if(remainderSize < minSize)
+            int *combination = malloc((remainderSize + 1) * sizeof(int)); // 分配内存
+            memcpy(combination, remainderResult, remainderSize * sizeof(int)); // 复制结果数组
+            combination[remainderSize] = nums[i]; // 将当前数字加入结果数组
+            if(remainderSize + 1 < minSize)
             {
-                minSize = remainderSize;
-                minResult = remainderResult;
+                minSize = remainderSize + 1;
+                minResult = combination;
             }
         }
     }
 
-    if(minResult != NULL) // 找到一个组合，返回结果数组
-    {
-        *returnSize = minSize;
-        return minResult;
-    }
-    else
-    {
-        *returnSize = 0;
-        return NULL;
-    }
+    *returnSize = minSize;
+    return minResult;
 }
 ```
 
@@ -123,35 +117,21 @@ int* bestSum(int target, int* nums, int numsSize, int* returnSize)
         int *remainderResult = bestSum(remainder, nums, numsSize, &remainderSize); // 递归调用bestSum函数
         if(remainderResult != NULL)
         {
-            remainderResult[remainderSize++] = nums[i]; // 将此元素加入到结果数组中
-            if(remainderSize < minSize)
+            int *combination = malloc((remainderSize + 1) * sizeof(int)); // 排列组合的结果数组
+            memcpy(combination, remainderResult, remainderSize * sizeof(int)); // 复制结果数组
+            combination[remainderSize] = nums[i]; // 将当前数字加入结果数组
+            if(remainderSize + 1 < minSize)
             {
-                minSize = remainderSize;
-                minResult = remainderResult;
+                minSize = remainderSize + 1;
+                minResult = combination;
             }
         }
     }
-
-    if(minResult != NULL) // 找到一个组合，返回结果数组
-    {
-        *returnSize = minSize;
-        if (memo[target] != NULL && memo_size[target] != 0) // 如果需要更新，释放内存
-        {
-            free(memo[target]); // 释放内存
-        }
-        memo[target] = malloc(minSize * sizeof(int)); // 分配内存
-        memcpy(memo[target], minResult, minSize * sizeof(int)); // 复制结果数组
-        memo_size[target] = minSize; // 记录结果数组的大小
-        return minResult;
-    }
-    else
-    {
-        *returnSize = 0;
-        return NULL;
-    }
+    memo[target] = minResult; // 将结果数组存入记忆化数组
+    memo_size[target] = minSize; // 将结果数组的大小存入记忆化数组
+    *returnSize = minSize; // 返回结果数组的大小
+    return minResult; // 返回结果数组
 }
 ```
-
-tips: 可能需要 `-O2` 优化
 
 此时的时间复杂度为O(n<sup>m</sup>)，空间复杂度为O(m)
