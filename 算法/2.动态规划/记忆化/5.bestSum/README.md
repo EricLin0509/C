@@ -117,7 +117,7 @@ int* bestSum(int target, int* nums, int numsSize, int* returnSize)
         int *remainderResult = bestSum(remainder, nums, numsSize, &remainderSize); // 递归调用bestSum函数
         if(remainderResult != NULL)
         {
-            int *combination = malloc((remainderSize + 1) * sizeof(int)); // 排列组合的结果数组
+            int *combination = malloc((remainderSize + 1) * sizeof(int)); // 结果数组的排列组合
             memcpy(combination, remainderResult, remainderSize * sizeof(int)); // 复制结果数组
             combination[remainderSize] = nums[i]; // 将当前数字加入结果数组
             if(remainderSize + 1 < minSize)
