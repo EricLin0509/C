@@ -6,10 +6,10 @@
 
 示例:
 
-canSum(7, [5, 3, 4, 7]) -> True
-canSum(7, [2, 4]) -> False
-canSum(8, [2, 3, 5]) -> True
-canSum(300, [7, 14]) -> False
+- canSum(7, [5, 3, 4, 7]) -> True
+- canSum(7, [2, 4]) -> False
+- canSum(8, [2, 3, 5]) -> True
+- canSum(300, [7, 14]) -> False
 
 ## 解题思路
 
