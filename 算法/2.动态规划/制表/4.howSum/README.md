@@ -96,6 +96,6 @@ int *howSum(int target, int *nums, int numsSize)
 }
 ```
 
-**注意：table[target][0] 记录的是数组的大小，table[target][1] 开始记录的是数组的内容**
+**注意：`table[target][0]` 记录的是数组的大小，从 `table[target][1]` 开始记录的是数组的内容**
 
 此时，我们的空间复杂度为 O(m<sup>2</sup>n)，时间复杂度为 O(m<sup>2</sup>n)
