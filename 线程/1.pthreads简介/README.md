@@ -64,9 +64,11 @@ pthread_create(&thread1, NULL, &thread_func, NULL);
 pthread_create(&thread2, NULL, &thread_func, NULL);
 ```
 
-### 合并线程
+### 等待子线程结束
 
-用于同时结束多个线程
+使用 `pthread_join` 函数等待子线程结束
+
+主线程需要等待子线程结束，否则子线程会成为僵尸线程
 
 #### 函数原型
 ```c
