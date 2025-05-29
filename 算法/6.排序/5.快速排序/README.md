@@ -145,6 +145,8 @@ void quick_sort(int *arr, int start, int end)
 
 指针 `i` 向后移动一位，然后交换指针 `i` 和指针 `j` 所指向的元素
 
+遍历完成后，交换指针 `i` 和基准元素
+
 ```c
 void quick_sort(int *arr, int start, int end)
 {
