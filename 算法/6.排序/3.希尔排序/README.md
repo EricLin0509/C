@@ -58,7 +58,7 @@ void shell_sort(int *arr, int len)
 
 ### 遍历数组
 
-从 `gap` 开始遍历数组，从而无效的遍历
+从 `gap` 开始遍历数组，从而对每组进行插入排序
 
 ```c
 void shell_sort(int *arr, int len)
