@@ -39,10 +39,16 @@
 由于每个节点都是先进后出，所以我们可以使用**栈**来实现深度优先遍历
 
 ```c
-typedef struct Node {
-    char data;
-    struct Node *next;
-} Node; // 使用领接表来表示图
+typedef struct Edge { // 边
+    int target; // 目标顶点索引
+    struct Edge *next; // 下一个边
+} Edge;
+
+typedef struct Node { // 节点
+    int data; // 节点的值
+    bool visited; // 节点是否被访问过
+    struct Edge *edges; // 节点的边
+} Node;
 
 void dfs(Node *root);
 ```
@@ -108,8 +114,6 @@ void dfs(Node *root)
 
 ### 遍历节点的相邻节点
 
-这里要反转一下，因为栈是先进后出，所以我们需要将相邻节点入栈，这样才能保证先遍历到的节点先出栈
-
 ```c
 void dfs(Node *root)
 {
@@ -123,17 +127,9 @@ void dfs(Node *root)
         Node *node = stack[--size]; // 取出栈顶元素
         printf("%c ", node->data); // 打印节点的数据
 
-        Node *temp[100]; // 临时栈
-        int count = 0; // 临时栈的大小
-
-        for (Node *next = node->next; next!= NULL; next = next->next) // 遍历节点的相邻节点
+        for (Node *next = node->edges; next != NULL; next = next->next) // 遍历节点的相邻节点
         {
-            temp[count++] = next; // 将相邻节点入栈
-        }
-
-        for (int i = count - 1; i >= 0; i--) // 反转临时栈
-        {
-            stack[size++] = temp[i];
+            stack[size++] = next; // 将相邻节点入栈
         }
     }
     printf("\n");
@@ -163,23 +159,16 @@ void dfs(Node *root)
     while (size > 0) // 直到栈为空
     {
         Node *node = stack[--size]; // 取出栈顶元素
-
-        if (node->visited) continue; // 如果已经被访问过，跳过
-        node->visited = true; // 标记为已访问 
-
         printf("%c ", node->data); // 打印节点的数据
 
-        Node *temp[100]; // 临时栈
-        int count = 0; // 临时栈的大小
-
-        for (Node *next = node->next; next!= NULL; next = next->next) // 遍历节点的相邻节点
+        for (Node *next = node->edges; next != NULL; next = next->next) // 遍历节点的相邻节点
         {
-            temp[count++] = next; // 将相邻节点入栈
-        }
-
-        for (int i = count - 1; i >= 0; i--) // 反转临时栈
-        {
-            stack[size++] = temp[i];
+            Node *target = &graph[edge->target]; // 相邻节点
+            if (!target->visited) // 如果相邻节点没有被访问过
+            {
+                next->visited = true; // 标记相邻节点为已访问
+                stack[size++] = next; // 将相邻节点入栈
+            }
         }
     }
     printf("\n");
