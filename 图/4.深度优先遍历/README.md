@@ -34,7 +34,7 @@
 
 可以发现，`F` 节点并没有被遍历过，这是因为 `F` 节点是一个孤立的节点，没有相邻的节点
 
-## 实现
+## 循环实现
 
 由于每个节点都是先进后出，所以我们可以使用**栈**来实现深度优先遍历
 
@@ -65,7 +65,7 @@ void dfs(Node *root)
 
 ### 将根节点入栈
 
-将根节点入栈，用于后续的遍历
+将根节点入栈，用于后续的遍历，并标记根节点为已访问
 
 ```c
 void dfs(Node *root)
@@ -74,6 +74,7 @@ void dfs(Node *root)
     int size = 0; // 栈的大小
 
     stack[size++] = root; // 将根节点入栈
+    root->visited = true; // 标记根节点为已访问
 }
 ```
 
@@ -88,6 +89,7 @@ void dfs(Node *root)
     int size = 0; // 栈的大小
 
     stack[size++] = root; // 将根节点入栈
+    root->visited = true; // 标记根节点为已访问
 
     while (size > 0) {    } // 直到栈为空
 }
@@ -102,6 +104,7 @@ void dfs(Node *root)
     int size = 0; // 栈的大小
 
     stack[size++] = root; // 将根节点入栈
+    root->visited = true; // 标记根节点为已访问
 
     while (size > 0) // 直到栈为空
     {
@@ -121,6 +124,7 @@ void dfs(Node *root)
     int size = 0; // 栈的大小
 
     stack[size++] = root; // 将根节点入栈
+    root->visited = true; // 标记根节点为已访问
 
     while (size > 0) // 直到栈为空
     {
@@ -155,6 +159,7 @@ void dfs(Node *root)
     int size = 0; // 栈的大小
 
     stack[size++] = root; // 将根节点入栈
+    root->visited = true; // 标记根节点为已访问
 
     while (size > 0) // 直到栈为空
     {
@@ -172,5 +177,93 @@ void dfs(Node *root)
         }
     }
     printf("\n");
+}
+```
+
+## 递归实现
+
+### 设置基准条件
+
+当节点为空时，结束递归
+
+```c
+void dfs_recursive(Node *root)
+{
+    if (root == NULL) return; // 基准条件
+}
+```
+
+### 打印节点
+
+```c
+void dfs_recursive(Node *root)
+{
+    if (root == NULL) return; // 基准条件
+
+    printf("%c ", root->data); // 打印节点的数据
+}
+```
+
+### 标记节点为已访问
+
+避免重复遍历
+
+```c
+void dfs_recursive(Node *root)
+{
+    if (root == NULL) return; // 基准条件
+
+    printf("%c ", root->data); // 打印节点的数据
+    root->visited = true; // 标记节点为已访问
+}
+```
+
+### 遍历节点的相邻节点
+
+```c
+void dfs_recursive(Node *root)
+{
+    if (root == NULL) return; // 基准条件
+    printf("%c ", root->data); // 打印节点的数据
+    root->visited = true; // 标记节点为已访问
+
+    for (Edge *edge = root->edges; edge!= NULL; edge = edge->next) {    } // 遍历节点的相邻节点
+}
+```
+
+### 去除重复的节点
+
+```c
+void dfs_recursive(Node *root)
+{
+    if (root == NULL) return; // 基准条件
+    printf("%c ", root->data); // 打印节点的数据
+    root->visited = true; // 标记节点为已访问
+
+    for (Edge *edge = root->edges; edge!= NULL; edge = edge->next) // 遍历节点的相邻节点
+    {
+        Node *target = &graph[edge->target]; // 相邻节点
+        if (!target->visited) {    } // 如果相邻节点没有被访问过
+    }
+}
+```
+
+### 递归遍历相邻节点
+
+```c
+void dfs_recursive(Node *root)
+{
+    if (root == NULL) return; // 基准条件
+    printf("%c ", root->data); // 打印节点的数据
+    root->visited = true; // 标记节点为已访问
+
+    for (Edge *edge = root->edges; edge!= NULL; edge = edge->next) // 遍历节点的相邻节点
+    {
+        Node *target = &graph[edge->target]; // 相邻节点
+        if (!target->visited) // 如果相邻节点没有被访问过
+        {
+            dfs_recursive(target); // 递归遍历相邻节点
+        }
+    }
 }
 ```

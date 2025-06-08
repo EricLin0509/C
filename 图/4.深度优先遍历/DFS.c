@@ -45,6 +45,7 @@ void dfs(Node *root)
     int size = 0; // 栈的大小
 
     stack[size++] = root; // 将根节点入栈
+    root->visited = true; // 标记根节点为已访问
 
     while (size > 0) // 直到栈为空
     {
@@ -65,6 +66,22 @@ void dfs(Node *root)
     printf("\n");
 }
 
+void dfs_recursive(Node *root)
+{
+    if (root == NULL) return; // 基准条件
+    printf("%c ", root->data); // 打印节点的数据
+    root->visited = true; // 标记节点为已访问
+
+    for (Edge *edge = root->edges; edge!= NULL; edge = edge->next) // 遍历节点的相邻节点
+    {
+        Node *target = &graph[edge->target]; // 相邻节点
+        if (!target->visited) // 如果相邻节点没有被访问过
+        {
+            dfs_recursive(target); // 递归遍历相邻节点
+        }
+    }
+}
+
 int main(int argc, const char * argv[]) {
     // 初始化顶点
     for (int i = 0; i < 6; i++) {
@@ -82,6 +99,12 @@ int main(int argc, const char * argv[]) {
     
     printf("从A开始DFS遍历: ");
     dfs(&graph[0]);  // A B D F C E
+
+    for (int i = 0; i < 6; i++) graph[i].visited = false; // Reset
+
+    printf("从A开始DFS递归遍历: ");
+    dfs_recursive(&graph[0]);  // A C E B D F
+    printf("\n");
 
     destroy_graph(graph);  // 释放内存
     return 0;
