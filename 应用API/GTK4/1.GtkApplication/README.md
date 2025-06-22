@@ -125,3 +125,10 @@ g_application_run(G_APPLICATION(app), argc, argv);
 ```
 
 有多种信号类型，详情请参考 [GIO API 文档](https://docs.gtk.org/gio/signal.Application.activate.html)
+
+现在程序运行时，会打印出 `activate signal received` 信息
+
+```bash
+./main
+activate signal received
+```
