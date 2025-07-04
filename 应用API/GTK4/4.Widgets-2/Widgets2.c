@@ -21,8 +21,6 @@ static void activate(GtkApplication* app, gpointer user_data) // 信号回调函
 
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(scrolled_window), text_view); // 设置 GtkScrolledWindow 的子控件
 
-    gtk_window_set_child(GTK_WINDOW(window), text_view); // 设置窗口子部件
-
     gtk_window_present(GTK_WINDOW(window)); // 显示窗口
 }
 
