@@ -103,7 +103,7 @@ static gboolean before_close(GtkWindow *window, GtkWidget *notebook)
         g_free(contents);
         g_object_unref(file);
     }
-    return FALSE; // 不关闭窗口
+    return FALSE;
 }
 
 int main(int argc, char **argv) {
