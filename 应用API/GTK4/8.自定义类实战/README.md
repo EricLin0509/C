@@ -94,7 +94,7 @@ GtkWindow 会在点击关闭按钮时发送关闭请求信号 (`close-request`)�
 g_signal_connect (window, "close-request", G_CALLBACK (before_close), NULL);
 ```
 
-由于 `close-request` 需要判断布尔值，因此 `before_close` 函数需要返回 `gbooelan` 值。如果返回 `TRUE`，则不关闭窗口，否则关闭窗口
+`close-request` 的返回值是 `gboolean`，当值为 `True` 时则停止为该信号调用其他处理程序
 
 ```c
 static gboolean before_close(GtkWindow *window, GtkWidget *notebook)
