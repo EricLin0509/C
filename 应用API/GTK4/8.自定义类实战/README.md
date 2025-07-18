@@ -88,10 +88,25 @@ G_END_DECLS
 
 GtkWindow 会在点击关闭按钮时发送关闭请求信号 (`close-request`)，我们连接这个信号并使用 `before_close` 信号处理函数处理关闭请求
 
-```c
-// FileEditor.c
+在 `app_open` 函数中，我们创建 `FileEditor` 实例、设置 GFile 实例的指针，并连接到 `close-request` 信号
 
-g_signal_connect (window, "close-request", G_CALLBACK (before_close), NULL);
+```c
+text_view = file_editor_new(); // 创建 FileEditor 实例
+buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_view));
+file_editor_set_file(FILE_EDITOR(text_view), g_file_dup(file)); // 设置 GFile 实例的指针
+gtk_text_buffer_set_text(buffer, contents, length); // 设置文本内容
+```
+
+```c
+if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(notebook)) > 0) // 如果有标签页，显示窗口
+{
+    g_signal_connect(window, "close-request", G_CALLBACK(before_close), notebook); // 当窗口关闭时，调用 before_close 函数
+    gtk_window_present(GTK_WINDOW(window)); // 显示窗口
+}
+else // 如果没有标签页，销毁窗口
+{
+    gtk_window_destroy(GTK_WINDOW(window));
+}
 ```
 
 `close-request` 的返回值是 `gboolean`，当值为 `True` 时则停止为该信号调用其他处理程序
@@ -129,17 +144,8 @@ static gboolean before_close(GtkWindow *window, GtkWidget *notebook)
         g_free(contents);
         g_object_unref(file);
     }
-    return FALSE;
+    return FALSE; // 不关闭窗口
 }
-```
-
-同时，在 `app_open` 函数中，我们创建 `FileEditor` 实例，并设置 GFile 实例的指针
-
-```c
-text_view = file_editor_new(); // 创建 FileEditor 实例
-buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_view));
-file_editor_set_file(FILE_EDITOR(text_view), g_file_dup(file)); // 设置 GFile 实例的指针
-gtk_text_buffer_set_text(buffer, contents, length); // 设置文本内容
 ```
 
 ![Result](imgs/Result.png)
