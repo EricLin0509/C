@@ -148,3 +148,84 @@ int main(int argc, char *argv[]) {
     return status;
 }
 ```
+
+### 销毁实例
+
+每个从 GObject 派生的对象都有一个引用计数。如果对象 A 引用了对象 B，则 A 会在 A 中保留一个指向 B 的指针，同时使用函数 g_object_ref(B) 将 B 的引用计数加一。如果 A 不再需要 B，则 A 会丢弃指向 B 的指针（通常将指针赋值为 NULL），并使用函数 g_object_unref(B) 将 B 的引用计数减一
+
+如果两个对象 A 和 B 都引用了 C，则 C 的引用计数为 2。如果 A 不再需要 C，则 A 会丢弃指向 C 的指针，并将 C 中的引用计数减一。此时 C 的引用计数为 1。同理，如果 B 不再需要 C，则 B 会丢弃指向 C 的指针，并将 C 中的引用计数减一。此时，没有任何对象引用 C，C 的引用计数为 0。这意味着 C 不再有用。然后 C 会自行析构，最终分配给 C 的内存会被释放
+
+![reference](imgs/reference.png)
+
+所以，我们可以通过假设 `MyObject` 的引用计数为0，那么就开始销毁 `MyObject` 实例
+
+销毁过程分为两个阶段：释放 (dispose) 和最终确定 (finalize)
+
+- 释放：释放对其他实例的所有引用
+- 最终确定：完成所有必要的清理工作，如释放内存、关闭文件、释放资源等
+
+首先需要设计一个 `dispose` 方法，用于释放对其他实例的引用
+
+```c
+// myobject.c
+
+static void my_object_dispose(GObject *gobject)
+{
+    MyObject *self = MY_OBJECT(gobject);
+
+    // 释放对其他实例的引用
+    // g_clear_object(&self->other_object); // 由于 `MyObject` 除了 `parent_instance` 字段 (继承父类) 外，没有其他字段引用其他实例，所以不需要调用 `g_clear_object`
+
+    G_OBJECT_CLASS(my_object_parent_class)->dispose(gobject); // 调用父类的 `dispose` 方法
+}
+```
+
+- `G_OBJECT_CLASS(my_object_parent_class)->dispose(gobject);` 这行代码是调用父类的 `dispose` 方法，他会以链式反应的方式调用所有父类的 `dispose` 方法，直到 `GObject` 类
+
+![chain](imgs/chain.png)
+
+然后需要在 `class_init` 方法中注册 `dispose` 方法
+
+```c
+// myobject.c
+
+static void my_object_class_init(MyObjectClass *class)
+{
+    GObjectClass *gobject_class = G_OBJECT_CLASS(class); // 获取父类
+
+    // 注册 `dispose` 方法
+    gobject_class->dispose = my_object_dispose;
+}
+```
+
+- `GObjectClass *gobject_class = G_OBJECT_CLASS(class);` 获取父类的 `GObjectClass` 结构体
+
+接着，需要实现 `finalize` 方法，用于完成所有必要的清理工作
+
+```c
+// myobject.c
+
+static void my_object_finalize(GObject *gobject)
+{
+    G_OBJECT_CLASS(my_object_parent_class)->finalize(gobject); // 调用父类的 `finalize` 方法
+}
+```
+
+- `G_OBJECT_CLASS(my_object_parent_class)->finalize(gobject);` 跟上面一样，以链式反应的方式调用所有父类的 `finalize` 方法，直到 `GObject` 类
+
+最后，需要在 `class_init` 方法中注册 `finalize` 方法
+
+```c
+static void my_object_class_init(MyObjectClass *class)
+{
+    GObjectClass *gobject_class = G_OBJECT_CLASS(class); // 获取父类
+
+    // 注册 `dispose` 方法
+    gobject_class->dispose = my_object_dispose;
+
+    // 注册 `finalize` 方法
+    gobject_class->finalize = my_object_finalize;
+}
+```
+
+至此，自定义的 `MyObject` 类型就完成了
