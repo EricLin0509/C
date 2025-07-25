@@ -33,12 +33,45 @@ static void file_editor_finalize(GObject *object)
 }
 
 static void file_editor_init(FileEditor *self) {    }
+
+enum {
+    CHANGE_FILE,
+    OPEN_RESPONSE,
+    NUMBER_OF_SIGNALS
+};
+
+static guint signals[NUMBER_OF_SIGNALS];
+
 static void file_editor_class_init(FileEditorClass *class)
 {
     GObjectClass *gobject_class = G_OBJECT_CLASS(class);
 
     gobject_class->dispose = file_editor_dispose;
     gobject_class->finalize = file_editor_finalize;
+
+    // 注册信号
+    signals[CHANGE_FILE] = g_signal_new("change-file",
+    G_TYPE_FROM_CLASS (class),
+    G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE | G_SIGNAL_NO_HOOKS,
+    0, // 信号的详细信息
+    NULL, // 信号类型
+    NULL, // 信号的元数据
+    NULL, // 信号的描述
+    G_TYPE_NONE, // 返回值类型
+    0 // 信号参数数量
+    );
+
+    signals[OPEN_RESPONSE] = g_signal_new("open-response",
+    G_TYPE_FROM_CLASS (class),
+    G_SIGNAL_RUN_LAST | G_SIGNAL_NO_RECURSE | G_SIGNAL_NO_HOOKS,
+    0, // 信号的详细信息
+    NULL, // 信号类型
+    NULL, // 信号的元数据
+    NULL, // 信号的描述
+    G_TYPE_NONE, // 返回值类型
+    1, // 信号参数数量
+    G_TYPE_INT // 信号参数类型
+    );
 }
 
 void file_editor_set_file(FileEditor *self, GFile *file)

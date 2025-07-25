@@ -27,12 +27,12 @@ GObject 的信号分为以下几步：
 
 ```c
 enum {
-    CHANGE_FILE
-    OPEN_RESPONSE
-    2 // 表示信号的数量
+    CHANGE_FILE,
+    OPEN_RESPONSE,
+    NUMBER_OF_SIGNALS
 };
 
-static guint signals[2];
+static guint signals[NUMBER_OF_SIGNALS];
 ```
 
 然后在 `class_init()` 中注册信号：
@@ -65,7 +65,7 @@ static void file_editor_class_init(FileEditorClass *class)
     NULL, // 信号的元数据
     NULL, // 信号的描述
     G_TYPE_NONE, // 返回值类型
-    1 // 信号参数数量
+    1, // 信号参数数量
     G_TYPE_INT // 信号参数类型
     );
 }
