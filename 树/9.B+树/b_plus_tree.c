@@ -6,8 +6,8 @@
 #define MIN_KEY_NUM (MAX_KEY_NUM / 2)
 
 typedef struct BPlusTreeNode {
-    int keys[MAX_KEY_NUM];
-    struct BPlusTreeNode *child[MAX_KEY_NUM+1]; // 子节点指针数组应该有 `keys_num+1` 个
+    int keys[MAX_KEY_NUM + 1]; // 这里的额外的 1 是保留位，分裂前会有 `MAX_KEY_NUM+1` 个键值
+    struct BPlusTreeNode *child[MAX_KEY_NUM+2]; // 子节点指针数组应该有 `keys_num+1` 个，但分裂前会有 `MAX_KEY_NUM+2` 个指针，因此多分配一个位置
     int keys_num;
     bool is_leaf; // 是否是叶子节点，只有叶子节点才可以存数据
     struct BPlusTreeNode *parent;
@@ -224,7 +224,7 @@ BPlusTreeNode* bplus_tree_insert(BPlusTreeNode* root, int key)
     
     // 叶子节点溢出，需要分裂
     BPlusTreeNode* current = leaf;
-    int promoted_key;
+    int promoted_key = 0;
     BPlusTreeNode* new_child = NULL;
     
     while (current->keys_num > MAX_KEY_NUM)
@@ -331,7 +331,7 @@ int main(void) {
     printf("Inserting keys into B+ tree...\n");
     
     // 插入一些测试数据
-    int keys[] = {10, 20, 5, 6, 12, 30, 7, 17, 3, 25, 15, 8, 22};
+    int keys[] = {10, 20, 5, 6, 12, 30, 7, 17, 3, 25, 15, 8, 22, 18, 19};
     int num_keys = sizeof(keys) / sizeof(keys[0]);
     
     for (int i = 0; i < num_keys; i++) {
