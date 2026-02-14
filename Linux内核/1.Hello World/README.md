@@ -81,7 +81,7 @@ module_exit(hello_exit);
 
 - 这两个宏会将 `hello_init` 和 `hello_exit` 函数符号导出，以便内核可以调用它们
 
-### 编写 [Makefile](../../工具/Make/Makefile简介/README.md)
+### 编写 [Makefile](https://github.com/EricLin0509/C/blob/main/%E5%B7%A5%E5%85%B7/1.Make/1.Makefile%E7%AE%80%E4%BB%8B/README.md)
 
 Linux内核模块的编译和链接有自己的一套流程，需要编写Makefile文件来描述编译和链接过程
 
