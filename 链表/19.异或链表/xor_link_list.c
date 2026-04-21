@@ -24,16 +24,23 @@ Node *create_node(int value)
     return node;
 }
 
-void add_node(XORLinkedList *list, int value)
+void init_list(XORLinkedList *list, int value)
 {
-    if (list->head == NULL) // 链表为空
-    {
-        assert(list->tail == NULL); // 确保链表为空
+    list->head = NULL;
+    list->tail = NULL;
 
-        Node *node = create_node(value);
-        list->head = node;
-        list->tail = node;
-        return;
+    Node *node = create_node(value);
+    list->head = node;
+    list->tail = node;
+}
+
+void append_node(XORLinkedList *list, int value)
+{
+    if (list->head == NULL)
+    {
+        assert(list->tail == NULL); // 链表为空
+
+        init_list(list, value); // 初始化链表
     }
     else // 链表不为空
     {
@@ -41,6 +48,23 @@ void add_node(XORLinkedList *list, int value)
         node->xor_ptr = (uintptr_t)list->tail; // 指向尾节点
         list->tail->xor_ptr ^= (uintptr_t)node; // 尾节点指向新节点
         list->tail = node; // 更新尾节点
+    }
+}
+
+void prepend_node(XORLinkedList *list, int value)
+{
+    if (list->head == NULL)
+    {
+        assert(list->tail == NULL); // 链表为空
+
+        init_list(list, value); // 初始化链表
+    }
+    else
+    {
+        Node *node = create_node(value);
+        node->xor_ptr = (uintptr_t)list->head; // 指向头节点
+        list->head->xor_ptr ^= (uintptr_t)node; // 头节点指向新节点
+        list->head = node; // 更新头节点
     }
 }
 
@@ -70,8 +94,9 @@ int main(void) {
 
     for (int i = 1; i <= 5; i++)
     {
-        add_node(&list, i);
+        prepend_node(&list, i);
     }
+    append_node(&list, 0);
 
     traverse_list(&list);
 

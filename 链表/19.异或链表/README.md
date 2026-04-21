@@ -52,16 +52,42 @@ typedef struct XORLinkedList {
 } XORLinkedList;
 ```
 
-### 向链表中添加节点
+### 初始化链表
+
+#### 1. 链表为空时，确保 `head` 和 `tail` 都为 `NULL`
 
 ```c
-void add_node(XORLinkedList *list, int value);
+void init_list(XORLinkedList *list, int value)
+{
+    list->head = NULL;
+    list->tail = NULL;
+}
+```
+
+#### 2. 插入初始节点
+
+```c
+void init_list(XORLinkedList *list, int value)
+{
+    list->head = NULL;
+    list->tail = NULL;
+
+    Node *node = create_node(value);
+    list->head = node;
+    list->tail = node;
+}
+```
+
+### 向链表中添加节点 (尾插法)
+
+```c
+void append_node(XORLinkedList *list, int value);
 ```
 
 #### 1. 如果链表为空，保证 `head` 和 `tail` 都为 `NULL`
 
 ```c
-void add_node(XORLinkedList *list, int value)
+void append_node(XORLinkedList *list, int value)
 {
     if (list->head == NULL)
     {
@@ -70,19 +96,16 @@ void add_node(XORLinkedList *list, int value)
 }
 ```
 
-#### 2. 链表为空时，创建一个节点，并将 `head` 和 `tail` 都指向这个节点
+#### 2. 链表为空时，初始化链表
 
 ```c
-void add_node(XORLinkedList *list, int value)
+void append_node(XORLinkedList *list, int value)
 {
     if (list->head == NULL)
     {
         assert(list->tail == NULL); // 链表为空
 
-        Node *node = create_node(value);
-        list->head = node;
-        list->tail = node;
-        return;
+        init_list(list, value); // 初始化链表
     }
 }
 ```
@@ -90,16 +113,13 @@ void add_node(XORLinkedList *list, int value)
 #### 3. 链表不为空时，创建一个节点并添加到链表的尾部
 
 ```c
-void add_node(XORLinkedList *list, int value)
+void append_node(XORLinkedList *list, int value)
 {
     if (list->head == NULL) // 链表为空
     {
         assert(list->tail == NULL); // 确保链表为空
 
-        Node *node = create_node(value);
-        list->head = node;
-        list->tail = node;
-        return;
+        init_list(list, value); // 初始化链表
     }
     else // 链表不为空
     {
@@ -114,6 +134,29 @@ void add_node(XORLinkedList *list, int value)
 - `node->xor_ptr = (uintptr_t)list->tail;` 用于指向之前的尾节点
 - `list->tail->xor_ptr ^= (uintptr_t)node;` 用于更新尾节点的 `xor_ptr` 指针，使其指向新节点
 - `list->tail = node;` 用于更新尾节点的指针
+
+### 向链表中添加节点 (头插法)
+
+#### 只需要把 `tail` 改为 `head` 即可
+
+```c
+void prepend_node(XORLinkedList *list, int value)
+{
+    if (list->head == NULL) // 链表为空
+    {
+        assert(list->tail == NULL); // 确保链表为空
+
+        init_list(list, value); // 初始化链表
+    }
+    else // 链表不为空
+    {
+        Node *node = create_node(value);
+        node->xor_ptr = (uintptr_t)list->head; // 指向头节点
+        list->head->xor_ptr ^= (uintptr_t)node; // 头节点指向新节点
+        list->head = node; // 更新头节点
+    }
+}
+```
 
 ### 遍历链表
 
