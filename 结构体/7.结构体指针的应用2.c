@@ -24,10 +24,10 @@ void func(STUDENT *p, int n)
 
 int main (int argc, const char * argv[]) {
 
-STUDENT edu[3] = {{1001,"zhangsan",90.5},{1002,"lisi",89.5},{1003,"wangwu",95.5}};
+    STUDENT edu[3] = {{1001,"zhangsan",90.5},{1002,"lisi",89.5},{1003,"wangwu",95.5}};
 
-func(edu, 3);
+    func(edu, 3);
 
-return 0;
+    return 0;
 
 }

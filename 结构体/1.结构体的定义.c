@@ -45,21 +45,21 @@ typedef struct students3
 
 int main (int argc, const char * argv[]) {
 
-struct students kevin;
+    struct students kevin;
 
-kevin.age = 20; // 访问结构体成员
-strcpy(kevin.name,"Kevin");
-kevin.sex = 'M';
-kevin.score = 90.5;
-printf("kevin.age=%d\n",kevin.age);
+    kevin.age = 20; // 访问结构体成员
+    strcpy(kevin.name,"Kevin");
+    kevin.sex = 'M';
+    kevin.score = 90.5;
+    printf("kevin.age=%d\n",kevin.age);
 
-lucy.age = 19;
-printf("lucy.age=%d\n",lucy.age);
+    lucy.age = 19;
+    printf("lucy.age=%d\n",lucy.age);
 
-STUDENT rose; // 等价与 'struct students3 rose;'
-rose.age = 18;
-printf("rose.age=%d\n",rose.age);
+    STUDENT rose; // 等价与 'struct students3 rose;'
+    rose.age = 18;
+    printf("rose.age=%d\n",rose.age);
 
-return 0;
+    return 0;
 
 }

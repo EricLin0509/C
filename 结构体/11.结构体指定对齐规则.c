@@ -22,12 +22,12 @@ struct students
 
 int main(int argc, const char * argv[]){
 
-struct students boy;
+    struct students boy;
 
-printf("sizeof(boy) = %d\n", sizeof(boy)); // 输出6
-printf("&(boy.a) = %zu\n", &(boy.a));
-printf("&(boy.b) = %zu\n", &(boy.b)); // 相差2
+    printf("sizeof(boy) = %d\n", sizeof(boy)); // 输出6
+    printf("&(boy.a) = %zu\n", &(boy.a));
+    printf("&(boy.b) = %zu\n", &(boy.b)); // 相差2
 
-return 0;
+    return 0;
 
 }
