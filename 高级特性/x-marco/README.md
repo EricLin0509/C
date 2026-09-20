@@ -1,28 +1,17 @@
 # X-Macro
 
-X-Macro 是一种宏技术，用于在编译时生成代码。它允许在编译时动态地生成代码，而不需要在运行时进行动态内存分配或函数调用
+X-Macro 是一种 C 预处理器宏技术，核心思想是将**数据定义**与**代码生成**分离——在一处集中维护数据列表，再通过反复重定义宏来生成不同的代码片段，从而在编译期自动生成重复性代码，避免手动维护带来的遗漏风险。
 
-## 示例
+## 问题引入
 
-假设现在我们有一个难度系统，通过使用不同的速度生成函数实现不同难度
+假设我们有一个难度系统，每种难度对应一个返回速度值的函数：
 
 ```c
-typedef int (*DifficultyFunc) (void);
+typedef int (*DifficultyFunc)(void);
 
-int easy(void)
-{
-    return 1;
-}
-
-int medium(void)
-{
-    return 2;
-}
-
-int hard(void)
-{
-    return 3;
-}
+int easy(void)   { return 1; }
+int medium(void) { return 2; }
+int hard(void)   { return 3; }
 
 static const DifficultyFunc difficulty_funcs[] = {
     easy,
@@ -31,24 +20,31 @@ static const DifficultyFunc difficulty_funcs[] = {
 };
 ```
 
-但是如果我们现在需要添加一个非常难的难度，那么很有可能会忘记添加到 `difficulty_funcs` 数组中
+当需要新增一个难度（如 `expert`）时，我们必须**同时**完成两件事：
 
-为解决这个问题，我们可以使用X-Macro技术
+1. 编写新函数 `expert`
+2. 将 `expert` 添加到 `difficulty_funcs` 数组中
+
+实际开发中很容易忘记第二步，导致数组与函数不同步。X-Macro 正是为了解决这类"列表与引用必须同步维护"的问题。
 
 ## 使用 X-Macro
 
-1. 首先我们需要定义一组数据，这些数据将用于生成代码
+### 第一步：集中定义数据列表
+
+将所有难度条目集中到一个"列表宏"中，每条数据以统一的格式 `DIFFICULTY(name, value)` 描述：
 
 ```c
 #define DIFFICULTIES \
-    DIFFICULTY(EASY, 1) \
+    DIFFICULTY(EASY,   1) \
     DIFFICULTY(MEDIUM, 2) \
-    DIFFICULTY(HARD, 3) \
+    DIFFICULTY(HARD,   3)
 ```
 
-2. 然后我们需要定义X-Macro，它将用于生成函数代码
+> `DIFFICULTY` 此时只是一个"占位符"，具体含义取决于后续的定义。
 
-由于预处理器的限制，我们无法直接写成 `difficulty_name`，因此我们**需要在 `name` 前面加上 `##` 通配符**才行
+### 第二步：生成函数定义
+
+对 `DIFFICULTY` 进行定义，使其展开为函数声明，然后展开列表宏：
 
 ```c
 #define DIFFICULTY(name, value) \
@@ -56,30 +52,63 @@ static const DifficultyFunc difficulty_funcs[] = {
     { \
         return value; \
     }
+
 DIFFICULTIES
+
 #undef DIFFICULTY
 ```
 
-3. 最后我们需要定义一个数组，用于存储函数指针
+> 由于预处理器不会对宏参数进行拼接，`difficulty_name` 会被原样输出而非替换。因此必须使用 **`##` 记号拼接运算符（Token Pasting Operator）** 将 `difficulty_` 与参数 `name` 拼接为合法标识符，如 `difficulty_EASY`。
+
+展开后等价于：
+
+```c
+int difficulty_EASY(void)   { return 1; }
+int difficulty_MEDIUM(void) { return 2; }
+int difficulty_HARD(void)   { return 3; }
+```
+
+### 第三步：生成函数指针数组
+
+重新定义 `DIFFICULTY`，使其展开为函数名（加逗号），然后展开同一个列表宏：
 
 ```c
 #define DIFFICULTY(name, value) difficulty_##name,
+
 static const DifficultyFunc difficulty_funcs[] = {
     DIFFICULTIES
 };
+
 #undef DIFFICULTY
 ```
 
-## 验证
-
-我们可以使用 `cpp` (C Preprocessor) 命令来验证X-Macro是否正确生成代码
+展开后等价于：
 
 ```c
-typedef int (*DifficultyFunc) (void);
+static const DifficultyFunc difficulty_funcs[] = {
+    difficulty_EASY, difficulty_MEDIUM, difficulty_HARD,
+};
+```
 
-int difficulty_EASY(void) { return 1; } int difficulty_MEDIUM(void) { return 2; } int difficulty_HARD(void) { return 3; }
+> 关键在于：函数定义和数组初始化**共享同一个数据源** `DIFFICULTIES`，因此永远保持同步。
 
+## 补充：`##` 与 `#` 的区别
 
+| 运算符 | 名称 | 作用 | 示例 | 展开结果 |
+|--------|------|------|------|----------|
+| `##` | 记号拼接运算符 (Token Pasting Operator) | 将两个记号拼接为一个新记号 | `difficulty_##EASY` | `difficulty_EASY` |
+| `#` | 字符串化运算符 (Stringizing Operator) | 将宏参数转换为字符串字面量 | `#EASY` | `"EASY"` |
+
+## 验证
+
+可使用 `cpp`（C 预处理器）命令查看宏展开结果，确认代码生成是否正确：
+
+```c
+typedef int (*DifficultyFunc)(void);
+
+int difficulty_EASY(void)   { return 1; }
+int difficulty_MEDIUM(void) { return 2; }
+int difficulty_HARD(void)   { return 3; }
 
 static const DifficultyFunc difficulty_funcs[] = {
     difficulty_EASY, difficulty_MEDIUM, difficulty_HARD,
@@ -88,24 +117,23 @@ static const DifficultyFunc difficulty_funcs[] = {
 
 ## 新增难度
 
-现在我们已经定义了X-Macro，我们只需要在 `DIFFICULTIES` 中添加新的难度即可
+使用 X-Macro 后，新增难度只需在 `DIFFICULTIES` 中添加一行：
 
 ```c
 #define DIFFICULTIES \
-    DIFFICULTY(EASY, 1) \
+    DIFFICULTY(EASY,   1) \
     DIFFICULTY(MEDIUM, 2) \
-    DIFFICULTY(HARD, 3) \
-    DIFFICULTY(EXPERT, 4) \
+    DIFFICULTY(HARD,   3) \
+    DIFFICULTY(EXPERT, 4)
 ```
 
-然后重新编译代码，就可以看到新增的难度已经生成了
+重新编译后，函数定义和数组都会自动包含新条目，无需手动同步：
 
 ```c
-typedef int (*DifficultyFunc) (void);
-
-int difficulty_EASY(void) { return 1; } int difficulty_MEDIUM(void) { return 2; } int difficulty_HARD(void) { return 3; } int difficulty_EXPERT(void) { return 4; }
-
-
+int difficulty_EASY(void)   { return 1; }
+int difficulty_MEDIUM(void) { return 2; }
+int difficulty_HARD(void)   { return 3; }
+int difficulty_EXPERT(void) { return 4; }
 
 static const DifficultyFunc difficulty_funcs[] = {
     difficulty_EASY, difficulty_MEDIUM, difficulty_HARD, difficulty_EXPERT,
