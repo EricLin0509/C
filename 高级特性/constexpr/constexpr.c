@@ -1,16 +1,15 @@
 #include <stdio.h>
 
-constexpr int len = 10;
-static int arr[len];
+#define SUM 100 + 200
+
+constexpr int sum = 100 + 200;
 
 int main(void) {
-    for (int i = 0; i < len; i++)
-    {
-        arr[i] = i;
-    }
+    int b = SUM * 2;
+    printf("SUM * 2 = %d\n", b);
 
-    for (int i = 0; i < len; i++)
-    {
-        printf("arr[%d] = %d\n", i, arr[i]);
-    }
+    int c = sum * 2;
+    printf("sum * 2 = %d\n", c);
+
+    return 0;
 }
